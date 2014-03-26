@@ -47,7 +47,6 @@ namespace :deploy do
     end
   end
   before "deploy", "deploy:check_revision"
-  after "deploy", "update_cron"
 end
 
 "Restart Apache"
