@@ -73,7 +73,7 @@ function circleAndSquare(a, b) {
   if (distX <= b.r - 4) { return true; }
   if (distY <= b.r - 4) { return true; }
   var cornerDist = Math.pow((distX - b.r), 2) + Math.pow((distY - b.r), 2);
-  return cornerDist / Math.pow(a.r, 2) <= 1.1;
+  return cornerDist / Math.pow(a.r, 2) <= 1.2;
 }
 
 function makeBigger(obj) {
