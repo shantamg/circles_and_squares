@@ -70,15 +70,15 @@ function collide(a, b) {
   }
 }
 
-function circleAndSquare(a, b) {
-  var distX = Math.abs(a.x - b.x);
-  var distY = Math.abs(a.y - b.y);
-  if (distX > (b.r + a.r) + 4) { return false; }
-  if (distY > (b.r + a.r) + 4) { return false; }
-  if (distX <= b.r - 4) { return true; }
-  if (distY <= b.r - 4) { return true; }
-  var cornerDist = Math.pow((distX - b.r), 2) + Math.pow((distY - b.r), 2);
-  return cornerDist / Math.pow(a.r, 2) <= 1.2;
+function circleAndSquare(circle, square) {
+  var circleDistanceX = Math.abs(circle.x - square.x);
+  var circleDistanceY = Math.abs(circle.y - square.y);
+  if (circleDistanceX > (square.r + circle.r) + 4) { return false; }
+  if (circleDistanceY > (square.r + circle.r) + 4) { return false; }
+  if (circleDistanceX <= square.r - 4) { return true; }
+  if (circleDistanceY <= square.r - 4) { return true; }
+  var cornerDist_sq = Math.pow((circleDistanceX - square.r), 2) + Math.pow((circleDistanceY - square.r), 2);
+  return cornerDist_sq / Math.pow(circle.r, 2) <= 1.2;
 }
 
 function makeBigger(obj) {
