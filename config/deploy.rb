@@ -2,24 +2,20 @@ require "bundler/capistrano"
 
 server "linode", :web, :app, :db, primary: true
 
-set :application, "circles_and_squares"
+set :application, "circles-and-squares"
 set :user, "deployer"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 #set :deploy_via, :remote_cache
 set :use_sudo, false
-set :rails_env, "production" #added for delayed job
 
 set :scm, "git"
-set :repository, "git@bitbucket.org:jgaluten/circles.git"
+set :repository, "git@bitbucket.org:jgaluten/circles-and-squares.git"
 set :branch, "master"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
-after "deploy:stop",    "delayed_job:stop"
-after "deploy:start",   "delayed_job:start"
-after "deploy:restart", "delayed_job:restart"
 
 
 namespace :deploy do
@@ -57,10 +53,5 @@ end
 "Restart Apache"
 task :restart_apache, roles: :app do
   run "sudo service apache2 restart"
-end
-
-"Updating Crontab"
-task :update_cron, roles: :app do
-  run "cd #{deploy_to}/current && bundle exec whenever -w"
 end
 
