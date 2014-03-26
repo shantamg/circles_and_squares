@@ -4,23 +4,10 @@ window.iid = 0;
 
 $(document).ready(function() {
   $('#background').click(function(e) {
-    createObject(e);
+    startGrowing(createObject(e));
   });
   $('body').on('mouseenter', '.circle, .square', function() {
-    var $this = $(this);
-    var bigEnough = false;
-    clearInterval(window.iid);
-    window.iid = setInterval(function() {
-      var thisI = getInfo($this);
-      for(var key in window.sprites) {
-        if (key == 'id'+$this.attr('id')) { continue; }
-        var otherI = window.sprites[key];
-        if (bigEnough = collide(thisI, otherI)) { break; }
-      };
-      if (!bigEnough) {
-        makeBigger($this);
-      }
-    }, 25);
+    startGrowing($(this));
   }).on('mouseleave', '.circle, .square', function(){
     clearInterval(window.iid);
   }).on('click', '.circle, .square', function() {
@@ -35,7 +22,25 @@ function createObject(e) {
     top : e.pageY - 2,
     left : e.pageX - 2
   }).show();
-  registerObject($('#'+'id'+window.latestId));
+  obj = $('#'+'id'+window.latestId);
+  registerObject(obj);
+  return obj;
+}
+
+function startGrowing($this) {
+  var bigEnough = false;
+  clearInterval(window.iid);
+  window.iid = setInterval(function() {
+    var thisI = getInfo($this);
+    for(var key in window.sprites) {
+      if (key == 'id'+$this.attr('id')) { continue; }
+      var otherI = window.sprites[key];
+      if (bigEnough = collide(thisI, otherI)) { break; }
+    };
+    if (!bigEnough) {
+      makeBigger($this);
+    }
+  }, 25);
 }
 
 function distance(a, b) {
