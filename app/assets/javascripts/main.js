@@ -56,7 +56,7 @@ function getInfo(obj) {
 function collide(a, b) {
   if (a.type == 'circle') {
     if (b.type == 'circle') { // circle and circle
-      return (distance(a, b) < (a.r + b.r + 4))
+      return ((b.x - a.x) * (b.x - a.x)) + ((a.y - b.y) * (a.y - b.y)) <= ((a.r + b.r + 4) * (a.r + b.r + 4));
     } else { // circle and square
       return circleAndSquare(a, b);
     }
@@ -71,14 +71,11 @@ function collide(a, b) {
 }
 
 function circleAndSquare(circle, square) {
-  var circleDistanceX = Math.abs(circle.x - square.x);
-  var circleDistanceY = Math.abs(circle.y - square.y);
-  if (circleDistanceX > (square.r + circle.r) + 4) { return false; }
-  if (circleDistanceY > (square.r + circle.r) + 4) { return false; }
-  if (circleDistanceX <= square.r - 4) { return true; }
-  if (circleDistanceY <= square.r - 4) { return true; }
-  var cornerDist_sq = Math.pow((circleDistanceX - square.r), 2) + Math.pow((circleDistanceY - square.r), 2);
-  return cornerDist_sq / Math.pow(circle.r, 2) <= 1.2;
+  var closestX = clamp(circle.x, square.left, square.right);
+  var closestY = clamp(circle.y, square.top, square.bottom);
+  var distanceX = circle.x - closestX;
+  var distanceY = circle.y - closestY;
+  return (distanceX * distanceX) + (distanceY * distanceY) < ((circle.r + 4) * (circle.r + 4));
 }
 
 function makeBigger(obj) {
@@ -111,4 +108,8 @@ function removeObject(obj) {
   clearInterval(window.iid);
   delete window.sprites['id'+obj.attr('id')];
   obj.remove();
+}
+
+function clamp(x, a, b) {
+  return Math.min(Math.max(x, a), b);
 }
