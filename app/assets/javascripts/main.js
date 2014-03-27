@@ -5,10 +5,7 @@ window.intro = true;
 
 $(document).ready(function() {
   $('#background').click(function(e) {
-    if (window.intro) {
-      window.intro = false;
-      $('#intro').fadeOut(10000);
-    }
+    hideIntro();
     startGrowing(createObject(e));
   });
   $('body').on('mouseenter', '.circle, .square', function() {
@@ -20,14 +17,21 @@ $(document).ready(function() {
   });
 });
 
+function hideIntro() {
+  if (window.intro) {
+    window.intro = false;
+    $('#intro').fadeOut(10000);
+  }
+}
+
 function createObject(e) {
   var shape = (e.shiftKey) ? 'square' : 'circle';
   window.latestId = window.latestId + 1;
-  $('.'+shape+'.prototype').clone().removeClass('prototype').attr('id', 'id'+window.latestId).appendTo('body').css({
+  $('.'+shape+'.prototype').clone().removeClass('prototype').attr('id', window.latestId).appendTo('body').css({
     top : e.pageY - 2,
     left : e.pageX - 2
   }).show();
-  obj = $('#'+'id'+window.latestId);
+  obj = $('#'+window.latestId);
   registerObject(obj);
   return obj;
 }
@@ -38,7 +42,7 @@ function startGrowing($this) {
   window.iid = setInterval(function() {
     var thisI = getInfo($this);
     for(var key in window.sprites) {
-      if (key == 'id'+$this.attr('id')) { continue; }
+      if (key == $this.attr('id')) { continue; }
       var otherI = window.sprites[key];
       if (bigEnough = collide(thisI, otherI)) { break; }
     };
@@ -55,7 +59,7 @@ function distance(a, b) {
 }
 
 function getInfo(obj) {
-  return window.sprites['id'+obj.attr('id')];
+  return window.sprites[obj.attr('id')];
 }
 
 function collide(a, b) {
@@ -97,7 +101,7 @@ function registerObject(obj) {
   var pos = obj.offset();
   var radius = obj.height() / 2;
   var objId = obj.attr('id');
-  window.sprites['id'+objId] = {
+  window.sprites[objId] = {
     top : pos.top,
     bottom : pos.top + (radius * 2),
     left : pos.left,
@@ -111,7 +115,7 @@ function registerObject(obj) {
 
 function removeObject(obj) {
   clearInterval(window.iid);
-  delete window.sprites['id'+obj.attr('id')];
+  delete window.sprites[obj.attr('id')];
   obj.remove();
 }
 
