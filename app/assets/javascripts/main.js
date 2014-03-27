@@ -14,6 +14,8 @@ $(document).ready(function() {
     clearInterval(window.iid);
   }).on('click', '.circle, .square', function() {
     removeObject($(this));
+  }).on('mousemove', '#background', function() {
+    clearInterval(window.iid);
   });
 });
 
