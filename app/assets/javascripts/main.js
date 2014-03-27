@@ -6,16 +6,16 @@ window.intro = true;
 $(document).ready(function() {
   $('#background').click(function(e) {
     hideIntro();
-    startGrowing(createObject(e));
+    createObject(e).startGrowing();
   });
   $('body').on('mouseenter', '.circle, .square', function() {
-    startGrowing($(this));
+    $(this).startGrowing();
   }).on('mouseleave', '.circle, .square', function(){
-    clearInterval(window.iid);
+    stopGrowing();
   }).on('click', '.circle, .square', function() {
     removeObject($(this));
   }).on('mousemove', '#background', function() {
-    clearInterval(window.iid);
+    stopGrowing();
   });
 });
 
@@ -42,10 +42,11 @@ function createObject(e) {
   return obj;
 }
 
-function startGrowing($this) {
+jQuery.fn.startGrowing = function() {
+  var $this = $(this[0]);
   if (!$this) { return false; }
   var bigEnough = false;
-  clearInterval(window.iid);
+  stopGrowing();
   window.iid = setInterval(function() {
     var thisI = getInfo($this);
     for(var key in window.sprites) {
@@ -59,10 +60,8 @@ function startGrowing($this) {
   }, 25);
 }
 
-function distance(a, b) {
-  var vert = Math.abs(a.y - b.y);
-  var horiz = Math.abs(a.x - b.x);
-  return Math.sqrt((vert * vert) + (horiz * horiz));
+function stopGrowing() {
+  clearInterval(window.iid);
 }
 
 function getInfo(obj) {
@@ -74,19 +73,18 @@ function collide(a, b) {
     if (b.type == 'circle') { // circle and circle
       return ((b.x - a.x) * (b.x - a.x)) + ((a.y - b.y) * (a.y - b.y)) <= ((a.r + b.r + 4) * (a.r + b.r + 4));
     } else { // circle and square
-      return circleAndSquare(a, b);
+      return circleCollidesSquare(a, b);
     }
   } else {
     if (b.type == 'circle') { // square and circle
-      return circleAndSquare(b, a);
+      return circleCollidesSquare(b, a);
     } else { // square and square
       return (a.left < b.right + 4 && a.right > b.left - 4 && a.top < b.bottom + 4 && a.bottom > b.top - 4);
     }
-
   }
 }
 
-function circleAndSquare(circle, square) {
+function circleCollidesSquare(circle, square) {
   var closestX = clamp(circle.x, square.left, square.right);
   var closestY = clamp(circle.y, square.top, square.bottom);
   var distanceX = circle.x - closestX;
@@ -121,7 +119,7 @@ function registerObject(obj) {
 }
 
 function removeObject(obj) {
-  clearInterval(window.iid);
+  stopGrowing();
   delete window.sprites[obj.attr('id')];
   obj.remove();
 }
