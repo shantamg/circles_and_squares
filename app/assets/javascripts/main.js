@@ -1,9 +1,14 @@
 window.sprites = {}
 window.latestId = 0;
 window.iid = 0;
+window.intro = true;
 
 $(document).ready(function() {
   $('#background').click(function(e) {
+    if (window.intro) {
+      window.intro = false;
+      $('#intro').fadeOut(10000);
+    }
     startGrowing(createObject(e));
   });
   $('body').on('mouseenter', '.circle, .square', function() {
@@ -16,7 +21,7 @@ $(document).ready(function() {
 });
 
 function createObject(e) {
-  var shape = (e.altKey) ? 'square' : 'circle';
+  var shape = (e.shiftKey) ? 'square' : 'circle';
   window.latestId = window.latestId + 1;
   $('.'+shape+'.prototype').clone().removeClass('prototype').attr('id', 'id'+window.latestId).appendTo('body').css({
     top : e.pageY - 2,
