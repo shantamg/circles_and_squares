@@ -22,11 +22,15 @@ $(document).ready(function() {
 function hideIntro() {
   if (window.intro) {
     window.intro = false;
-    $('#intro').fadeOut(10000);
+    $('#intro').fadeOut(1000);
   }
 }
 
 function createObject(e) {
+  if (e.altKey) {
+    alert(JSON.stringify(window.sprites));
+    return false;
+  }
   var shape = (e.shiftKey) ? 'square' : 'circle';
   window.latestId = window.latestId + 1;
   $('.'+shape+'.prototype').clone().removeClass('prototype').attr('id', window.latestId).appendTo('body').css({
@@ -39,6 +43,7 @@ function createObject(e) {
 }
 
 function startGrowing($this) {
+  if (!$this) { return false; }
   var bigEnough = false;
   clearInterval(window.iid);
   window.iid = setInterval(function() {
