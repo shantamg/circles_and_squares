@@ -1,7 +1,33 @@
-window.sprites = {}
-window.latestId = 0;
-window.iid = 0;
-window.intro = true;
+var sprites = {}
+var latestId = 0;
+var iid = 0;
+var intro = true;
+
+var SHAPE  = 's';
+var CIRCLE = 0;
+var SQUARE = 1;
+var TOP    = 't';
+var BOTTOM = 'b';
+var LEFT   = 'l';
+var RIGHT  = 'rt';
+
+function registerObject(obj) {
+  var pos    = obj.offset();
+  var height = obj.height();
+  var width  = height;
+  var radius = width / 2;
+  var objId  = obj.attr('id');
+  sprites[objId] = {
+    s  : obj.hasClass('circle') ? CIRCLE : SQUARE,
+    t  : pos.top,
+    b  : pos.top + height,
+    l  : pos.left,
+    rt : pos.left + width,
+    x  : pos.left + radius,
+    y  : pos.top + radius,
+    r  : radius
+  }
+}
 
 $(document).ready(function() {
   $('#background').click(function(e) {
@@ -20,24 +46,24 @@ $(document).ready(function() {
 });
 
 function hideIntro() {
-  if (window.intro) {
-    window.intro = false;
+  if (intro) {
+    intro = false;
     $('#intro').fadeOut(1000);
   }
 }
 
 function createObject(e) {
   if (e.altKey) {
-    alert(JSON.stringify(window.sprites));
+    alert(JSON.stringify(sprites));
     return false;
   }
   var shape = (e.shiftKey) ? 'square' : 'circle';
-  window.latestId = window.latestId + 1;
-  $('.'+shape+'.prototype').clone().removeClass('prototype').attr('id', window.latestId).appendTo('body').css({
+  latestId++;
+  $('.'+shape+'.prototype').clone().removeClass('prototype').attr('id', latestId).appendTo('body').css({
     top : e.pageY - 2,
     left : e.pageX - 2
   }).show();
-  obj = $('#'+window.latestId);
+  obj = $('#'+latestId);
   registerObject(obj);
   return obj;
 }
@@ -47,11 +73,11 @@ jQuery.fn.startGrowing = function() {
   if (!$this) { return false; }
   var bigEnough = false;
   stopGrowing();
-  window.iid = setInterval(function() {
+  iid = setInterval(function() {
     var thisI = getInfo($this);
-    for(var key in window.sprites) {
+    for(var key in sprites) {
       if (key == $this.attr('id')) { continue; }
-      var otherI = window.sprites[key];
+      var otherI = sprites[key];
       if (bigEnough = collide(thisI, otherI)) { break; }
     };
     if (!bigEnough) {
@@ -61,32 +87,32 @@ jQuery.fn.startGrowing = function() {
 }
 
 function stopGrowing() {
-  clearInterval(window.iid);
+  clearInterval(iid);
 }
 
 function getInfo(obj) {
-  return window.sprites[obj.attr('id')];
+  return sprites[obj.attr('id')];
 }
 
 function collide(a, b) {
-  if (a.type == 'circle') {
-    if (b.type == 'circle') { // circle and circle
+  if (a[SHAPE] == CIRCLE) {
+    if (b[SHAPE] == CIRCLE) { // circle and circle
       return ((b.x - a.x) * (b.x - a.x)) + ((a.y - b.y) * (a.y - b.y)) <= ((a.r + b.r + 4) * (a.r + b.r + 4));
     } else { // circle and square
       return circleCollidesSquare(a, b);
     }
   } else {
-    if (b.type == 'circle') { // square and circle
+    if (b[SHAPE] == CIRCLE) { // square and circle
       return circleCollidesSquare(b, a);
     } else { // square and square
-      return (a.left < b.right + 4 && a.right > b.left - 4 && a.top < b.bottom + 4 && a.bottom > b.top - 4);
+      return (a[LEFT] < b[RIGHT] + 4 && a[RIGHT] > b[LEFT] - 4 && a[TOP] < b[BOTTOM] + 4 && a[BOTTOM] > b[TOP] - 4);
     }
   }
 }
 
 function circleCollidesSquare(circle, square) {
-  var closestX = clamp(circle.x, square.left, square.right);
-  var closestY = clamp(circle.y, square.top, square.bottom);
+  var closestX  = clamp(circle.x, square[LEFT], square[RIGHT]);
+  var closestY  = clamp(circle.y, square[TOP], square[BOTTOM]);
   var distanceX = circle.x - closestX;
   var distanceY = circle.y - closestY;
   return (distanceX * distanceX) + (distanceY * distanceY) < ((circle.r + 4) * (circle.r + 4));
@@ -94,33 +120,17 @@ function circleCollidesSquare(circle, square) {
 
 function makeBigger(obj) {
   obj.css({
-    top :  obj.offset().top - 1,
-    left : obj.offset().left - 1,
-    width: obj.width() + 2,
-    height: obj.height() + 2
+    top    : obj.offset().top - 1,
+    left   : obj.offset().left - 1,
+    width  : obj.width() + 2,
+    height : obj.height() + 2
   });
   registerObject(obj);
 }
 
-function registerObject(obj) {
-  var pos = obj.offset();
-  var radius = obj.height() / 2;
-  var objId = obj.attr('id');
-  window.sprites[objId] = {
-    top : pos.top,
-    bottom : pos.top + (radius * 2),
-    left : pos.left,
-    right : pos.left + (radius * 2),
-    y : pos.top + radius,
-    x : pos.left + radius,
-    r : radius,
-    type : obj.hasClass('circle') ? 'circle' : 'square'
-  }
-}
-
 function removeObject(obj) {
   stopGrowing();
-  delete window.sprites[obj.attr('id')];
+  delete sprites[obj.attr('id')];
   obj.remove();
 }
 
