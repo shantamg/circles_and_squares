@@ -2,6 +2,7 @@ var sprites = {}
 var latestId = 0;
 var iid = 0;
 var intro = true;
+var dirty = false;
 
 var SHAPE  = 's';
 var CIRCLE = 0;
@@ -27,10 +28,12 @@ function registerObject(obj) {
     y  : pos.top + radius,
     r  : radius
   }
+  dirty = true;
 }
 
 $(document).ready(function() {
   registerObjects();
+  dirty = false;
   $('#background').click(function(e) {
     hideIntro();
     createObject(e).startGrowing();
@@ -45,8 +48,19 @@ $(document).ready(function() {
     stopGrowing();
   });
   $('#save').click(function() {
+    if (latestId < 20) {
+      alert("You can put a little more time in than that...");
+      return false;
+    }
     saveDrawing();
     return false;
+  });
+  $('.check_if_dirty').click(function() {
+    if (dirty) {
+      if (!confirm("Leave without saving?")) {
+        return false;
+      }
+    }
   });
 });
 
@@ -140,13 +154,10 @@ function removeObject(obj) {
   stopGrowing();
   delete sprites[obj.attr('id')];
   obj.remove();
+  dirty = true;
 }
 
 function saveDrawing() {
-  if (latestId < 20) {
-    alert("You can put a little more time in than that...");
-    return false;
-  }
   var sprite_data = [];
   for(var key in sprites) {
     sprite_data.push({
@@ -165,6 +176,7 @@ function saveDrawing() {
       sprites_json : JSON.stringify(sprite_data)
     } }
   });
+  dirty = false;
 }
 
 function clamp(x, a, b) {
