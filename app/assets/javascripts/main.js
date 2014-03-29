@@ -3,6 +3,7 @@ var latestId = 0;
 var iid = 0;
 var intro = true;
 var dirty = false;
+var clicks = 0;
 
 var SHAPE  = 's';
 var CIRCLE = 0;
@@ -37,6 +38,7 @@ $(document).ready(function() {
   $('#background').click(function(e) {
     hideIntro();
     createObject(e).startGrowing();
+    registerClick();
   });
   $('body').on('mouseenter', '.circle, .square', function() {
     $(this).startGrowing();
@@ -48,7 +50,7 @@ $(document).ready(function() {
     stopGrowing();
   });
   $('#save').click(function() {
-    if (latestId < 20) {
+    if (clicks < 20) {
       alert("You can put a little more time in than that...");
       return false;
     }
@@ -62,6 +64,14 @@ $(document).ready(function() {
       }
     }
   });
+  $('#like').click(function() {
+    if (!$(this).hasClass('liked')) {
+      $.get('/drawings/like/'+$(this).attr('data-slug'));
+      $(this).addClass('liked');
+      $('#likes').html(Number($('#likes').text()) + 1).show();
+    }
+    return false;
+  });
 });
 
 function registerObjects() {
@@ -69,6 +79,14 @@ function registerObjects() {
     latestId++;
     registerObject($(this).attr('id', latestId));
   });
+}
+
+function registerClick() {
+  clicks++;
+  if (clicks > 20 && $('#like').is(':visible')) {
+    $('#based_on').fadeIn('fast');
+    $('#like, #likes').fadeOut('fast');
+  }
 }
 
 function hideIntro() {

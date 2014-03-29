@@ -18,6 +18,10 @@ class Drawing < ActiveRecord::Base
     end
   end
 
+  def camel_name
+    name.gsub(/\s+/, "_").camelize
+  end
+
   private
     def add_salt
       self.salt = 1 + rand(8)

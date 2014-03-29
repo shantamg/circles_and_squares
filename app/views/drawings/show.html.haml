@@ -1,4 +1,8 @@
 #menu
+  %span{id: 'based_on', style: 'display:none'} Based on:
+  %span{id: 'likes', style: @drawing.likes == 0 ? 'display:none' : ''}=@drawing.likes
+  =link_to "<i class='fa fa-thumbs-o-up'></i>".html_safe, '', id: 'like', data: {slug: @drawing.to_param}, class: @liked ? 'liked' : ''
+  =link_to @drawing.camel_name, '', class: 'check_if_dirty', id: 'name'
   =link_to "New", '/', class: 'check_if_dirty'
   =link_to "Save", '', id: 'save'
   =link_to "Browse", drawings_path, class: 'check_if_dirty'

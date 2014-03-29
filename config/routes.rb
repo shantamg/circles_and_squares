@@ -4,7 +4,9 @@ CirclesAndSquares::Application.routes.draw do
     get "/#{action}", to: "pages##{action}", as: "#{action}"
   end
 
-  root :to => 'pages#index'
+  root :to => 'drawings#new'
 
   resources :drawings
+  get 'drawings/like/:id', to: 'drawings#like' 
+
 end
