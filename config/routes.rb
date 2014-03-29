@@ -5,4 +5,6 @@ CirclesAndSquares::Application.routes.draw do
   end
 
   root :to => 'pages#index'
+
+  resources :drawings
 end

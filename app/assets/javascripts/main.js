@@ -30,6 +30,7 @@ function registerObject(obj) {
 }
 
 $(document).ready(function() {
+  registerObjects();
   $('#background').click(function(e) {
     hideIntro();
     createObject(e).startGrowing();
@@ -45,6 +46,13 @@ $(document).ready(function() {
   });
 });
 
+function registerObjects() {
+  $('.circle, .square').not('.prototype').each(function() {
+    latestId++;
+    registerObject($(this).attr('id', latestId));
+  });
+}
+
 function hideIntro() {
   if (intro) {
     intro = false;
@@ -54,7 +62,7 @@ function hideIntro() {
 
 function createObject(e) {
   if (e.altKey) {
-    alert(JSON.stringify(sprites));
+    saveDrawing();
     return false;
   }
   var shape = (e.shiftKey) ? 'square' : 'circle';
@@ -132,6 +140,27 @@ function removeObject(obj) {
   stopGrowing();
   delete sprites[obj.attr('id')];
   obj.remove();
+}
+
+function saveDrawing() {
+  var sprite_data = [];
+  for(var key in sprites) {
+    sprite_data.push({
+      s : sprites[key].s,
+      t : sprites[key].t,
+      l : sprites[key].l,
+      d : sprites[key].r * 2
+    });
+  }
+  var name = prompt("Please name this drawing:");
+  $.ajax({
+    url  : "/drawings",
+    type : "POST",
+    data : { drawing: {
+      name         : name,
+      sprites_json : JSON.stringify(sprite_data)
+    } }
+  });
 }
 
 function clamp(x, a, b) {

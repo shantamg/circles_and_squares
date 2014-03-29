@@ -1,0 +1,5 @@
+#background
+.circle.prototype{style: 'display:none'}
+.square.prototype{style: 'display:none'}
+-@sprites.each do |s|
+  %div{class: s.s == 0 ? 'circle' : 'square', style: "top: #{s.t}px; left: #{s.l}px; height: #{s.d}px; width: #{s.d}px"}
