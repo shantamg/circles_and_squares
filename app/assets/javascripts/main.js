@@ -198,6 +198,7 @@ function saveDrawing() {
     } }
   }).done(function(response) {
     $('#name').html(response.name).attr('href', response.url);
+    document.location = response.url;
   });
   dirty = false;
 }
