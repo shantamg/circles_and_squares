@@ -1,4 +1,8 @@
 module MenuHelper
+  def link_title
+    link_to "CirclesAndSquares!", '/', id: 'title'
+  end
+
   def link_new
     link_to "New", '/', class: 'new check_if_dirty'
   end
