@@ -1,2 +1,4 @@
--@drawings.each do |d|
-  =link_to d.name, drawing_path(d)
+#menu
+  =link_to "New", '/', class: 'new'
+  -@drawings.each do |d|
+    =link_to d.name.gsub(/\s+/, "_").camelize, drawing_path(d)

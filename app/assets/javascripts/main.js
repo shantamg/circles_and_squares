@@ -44,6 +44,10 @@ $(document).ready(function() {
   }).on('mousemove', '#background', function() {
     stopGrowing();
   });
+  $('#save').click(function() {
+    saveDrawing();
+    return false;
+  });
 });
 
 function registerObjects() {
@@ -61,10 +65,6 @@ function hideIntro() {
 }
 
 function createObject(e) {
-  if (e.altKey) {
-    saveDrawing();
-    return false;
-  }
   var shape = (e.shiftKey) ? 'square' : 'circle';
   latestId++;
   $('.'+shape+'.prototype').clone().removeClass('prototype').attr('id', latestId).appendTo('body').css({
@@ -143,6 +143,10 @@ function removeObject(obj) {
 }
 
 function saveDrawing() {
+  if (latestId < 20) {
+    alert("You can put a little more time in than that...");
+    return false;
+  }
   var sprite_data = [];
   for(var key in sprites) {
     sprite_data.push({

@@ -1,19 +1,58 @@
-body
-  background-color: #F2EFE7
+$light-blue: #9dd3cd
+$dark: #3d372a
+$light-brown: #b28249
+$brown: #72583d
+$tan: #e6d3b4
+$grey: #878574
+$brown2: #be9f73
+$stone: #95a59f
+$green: #749c94
 
 *
+  padding: 0
+  margin: 0
+
+body
+  background-color: $tan
+  font-family: 'Varela', sans-serif
+  font-size: 1em
+  padding: 1em 3em
+
+#menu
+  text-align: right
+
+#user
+  float: right
+  display: block
+  margin-left: .3em
+
+a
+  margin-left: -5px
+  padding: 0 .2em
+  text-decoration: none
+  color: $brown
+  &:hover
+    color: $green
+a.new, #user a
+  color: $green
+  &:hover
+    color: $dark
+
+#background, .circle, .square, #intro
   cursor: crosshair
+
+
 
 #background
   position: absolute
-  top: 0
+  top: 3em
   left: 0
   height: 10000px
   width: 10000px
 
 #intro
   margin: 3em
-  color: #605C4D
+  color: $dark
 #heading
   font-size: 5em
 .item
@@ -22,7 +61,7 @@ body
 .circle, .square
   height: 1px
   width: 1px
-  border: 2px solid #2F1108
+  border: 2px solid $dark
   position: absolute
 
 .circle
