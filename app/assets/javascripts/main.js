@@ -1,9 +1,6 @@
-var sprites = {}
-var latestId = 0;
-var iid = 0;
-var intro = true;
-var changes_added = 0;
-
+// Constants
+var MAX_IDLE = 1; // minutes
+var NUM_CHANGES_FOR_DIRTY = 10;
 var SHAPE  = 's';
 var CIRCLE = 0;
 var SQUARE = 1;
@@ -11,6 +8,15 @@ var TOP    = 't';
 var BOTTOM = 'b';
 var LEFT   = 'l';
 var RIGHT  = 'rt';
+
+// Globals
+var sprites = {}
+var latestId = 0;
+var grow_interval_id = 0;
+var intro = true;
+var changes_added = 0;
+var idle_time = 0;
+var idle_interval_id = 0;
 
 function registerObject(obj) {
   var pos    = obj.offset();
@@ -32,6 +38,9 @@ function registerObject(obj) {
 
 $(document).ready(function() {
   registerObjects();
+  if ($('#background').length) {
+    idle_interval_id = setInterval(timerIncrement, 60000); // 1 minute
+  }
   $('#background').click(function(e) {
     hideIntro();
     createObject(e).startGrowing();
@@ -47,7 +56,7 @@ $(document).ready(function() {
     stopGrowing();
   });
   $('#save').click(function() {
-    if (!changedEnough()) {
+    if (!dirty()) {
       alert("You can put a little more time in than that...");
       return false;
     }
@@ -55,7 +64,7 @@ $(document).ready(function() {
     return false;
   });
   $('.check_if_dirty').click(function() {
-    if (changedEnough()) {
+    if (dirty()) {
       if (!confirm("Leave without saving?")) {
         return false;
       }
@@ -71,6 +80,16 @@ $(document).ready(function() {
   });
 });
 
+function timerIncrement() {
+  if (dirty()) {
+    idle_time++;
+    if (idle_time >= MAX_IDLE) {
+      idle_time = 0;
+      saveDrawing();
+    }
+  }
+}
+
 function registerObjects() {
   $('.circle, .square').not('.prototype').each(function() {
     latestId++;
@@ -80,7 +99,7 @@ function registerObjects() {
 
 function registerChange() {
   changes_added++;
-  if (changedEnough()) {
+  if (dirty()) {
     $('#based_on').fadeIn('fast');
     $('#based_on_link').html($('#name').html()).attr('href', $('#name').attr('href'));
     $('#name').html('');
@@ -112,7 +131,7 @@ jQuery.fn.startGrowing = function() {
   if (!$this) { return false; }
   var bigEnough = false;
   stopGrowing();
-  iid = setInterval(function() {
+  grow_interval_id = setInterval(function() {
     var thisI = getInfo($this);
     for(var key in sprites) {
       if (key == $this.attr('id')) { continue; }
@@ -123,14 +142,15 @@ jQuery.fn.startGrowing = function() {
       makeBigger($this);
     }
   }, 25);
+
 }
 
 function stopGrowing() {
-  clearInterval(iid);
+  clearInterval(grow_interval_id);
 }
 
-function changedEnough() {
-  return changes_added >= 10;
+function dirty() {
+  return changes_added >= NUM_CHANGES_FOR_DIRTY;
 }
 
 function getInfo(obj) {
@@ -187,7 +207,7 @@ function saveDrawing() {
       d : sprites[key].r * 2
     });
   }
-  var name = prompt("Please name this drawing:");
+  var name = prompt("What should we call this thing?");
   $.ajax({
     url  : "/drawings",
     type : "POST",
