@@ -1,5 +1,5 @@
 class Drawing < ActiveRecord::Base
-  attr_accessible :name, :salt, :sprites_json, :user_id
+  attr_accessible :name, :salt, :sprites_json, :user_id, :based_on, :likes
   attr_accessor :sprites
 
   before_save :add_salt

@@ -11,7 +11,10 @@ class DrawingsController < ApplicationController
   def create
     @drawing = Drawing.new params[:drawing]
     if @drawing.save
-      render json: { }
+      render json: {
+        name: @drawing.camel_name,
+        url: (url_for @drawing)
+      }
     else
       render json: { }, status: 500
     end
@@ -21,6 +24,7 @@ class DrawingsController < ApplicationController
     @drawing = Drawing.find_by_uid(params[:id])
     @sprites = @drawing.parseSprites
     @liked   = session[:liked].include? params[:id]
+    @based_on = Drawing.find_by_uid(@drawing.based_on) if @drawing.based_on
   end
 
   def like

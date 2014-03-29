@@ -66,7 +66,7 @@ $(document).ready(function() {
   });
   $('#like').click(function() {
     if (!$(this).hasClass('liked')) {
-      $.get('/drawings/like/'+$(this).attr('data-slug'));
+      $.get('/drawings/like/'+$('#here').html());
       $(this).addClass('liked');
       $('#likes').html(Number($('#likes').text()) + 1).show();
     }
@@ -85,6 +85,8 @@ function registerClick() {
   clicks++;
   if (clicks > 20 && $('#like').is(':visible')) {
     $('#based_on').fadeIn('fast');
+    $('#based_on_link').html($('#name').html()).attr('href', $('#name').attr('href'));
+    $('#name').html('');
     $('#like, #likes').fadeOut('fast');
   }
 }
@@ -191,8 +193,11 @@ function saveDrawing() {
     type : "POST",
     data : { drawing: {
       name         : name,
-      sprites_json : JSON.stringify(sprite_data)
+      sprites_json : JSON.stringify(sprite_data),
+      based_on     : $('#here').html()
     } }
+  }).done(function(response) {
+    $('#name').html(response.name).attr('href', response.url);
   });
   dirty = false;
 }
