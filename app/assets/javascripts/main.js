@@ -50,7 +50,7 @@ $(document).ready(function() {
     stopGrowing();
   });
   $('#save').click(function() {
-    if (clicks < 20) {
+    if (clicks < 10) {
       alert("You can put a little more time in than that...");
       return false;
     }
@@ -83,7 +83,7 @@ function registerObjects() {
 
 function registerClick() {
   clicks++;
-  if (clicks > 20 && $('#like').is(':visible')) {
+  if (clicks > 10 && $('#like').is(':visible')) {
     $('#based_on').fadeIn('fast');
     $('#based_on_link').html($('#name').html()).attr('href', $('#name').attr('href'));
     $('#name').html('');
