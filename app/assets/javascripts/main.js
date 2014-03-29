@@ -2,8 +2,7 @@ var sprites = {}
 var latestId = 0;
 var iid = 0;
 var intro = true;
-var dirty = false;
-var clicks = 0;
+var changes_added = 0;
 
 var SHAPE  = 's';
 var CIRCLE = 0;
@@ -29,16 +28,14 @@ function registerObject(obj) {
     y  : pos.top + radius,
     r  : radius
   }
-  dirty = true;
 }
 
 $(document).ready(function() {
   registerObjects();
-  dirty = false;
   $('#background').click(function(e) {
     hideIntro();
     createObject(e).startGrowing();
-    registerClick();
+    registerChange();
   });
   $('body').on('mouseenter', '.circle, .square', function() {
     $(this).startGrowing();
@@ -50,7 +47,7 @@ $(document).ready(function() {
     stopGrowing();
   });
   $('#save').click(function() {
-    if (clicks < 10) {
+    if (!changedEnough()) {
       alert("You can put a little more time in than that...");
       return false;
     }
@@ -58,7 +55,7 @@ $(document).ready(function() {
     return false;
   });
   $('.check_if_dirty').click(function() {
-    if (dirty) {
+    if (changedEnough()) {
       if (!confirm("Leave without saving?")) {
         return false;
       }
@@ -81,9 +78,9 @@ function registerObjects() {
   });
 }
 
-function registerClick() {
-  clicks++;
-  if (clicks > 10 && $('#like').is(':visible')) {
+function registerChange() {
+  changes_added++;
+  if (changedEnough()) {
     $('#based_on').fadeIn('fast');
     $('#based_on_link').html($('#name').html()).attr('href', $('#name').attr('href'));
     $('#name').html('');
@@ -132,6 +129,10 @@ function stopGrowing() {
   clearInterval(iid);
 }
 
+function changedEnough() {
+  return changes_added >= 10;
+}
+
 function getInfo(obj) {
   return sprites[obj.attr('id')];
 }
@@ -174,7 +175,6 @@ function removeObject(obj) {
   stopGrowing();
   delete sprites[obj.attr('id')];
   obj.remove();
-  dirty = true;
 }
 
 function saveDrawing() {
@@ -197,10 +197,10 @@ function saveDrawing() {
       based_on     : $('#here').html()
     } }
   }).done(function(response) {
+    changes_added = 0;
     $('#name').html(response.name).attr('href', response.url);
     document.location = response.url;
   });
-  dirty = false;
 }
 
 function clamp(x, a, b) {
