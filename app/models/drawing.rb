@@ -1,6 +1,5 @@
 class Drawing < ActiveRecord::Base
   attr_accessible :name, :salt, :sprites_json, :user_id, :based_on, :likes
-  attr_accessor :sprites
 
   before_save :add_salt
 
@@ -20,6 +19,15 @@ class Drawing < ActiveRecord::Base
 
   def camel_name
     name.gsub(/\s+/, "_").camelize
+  end
+
+  def self.popularity(drawings)
+    most_likes = find(:first, select: 'likes', order: 'likes desc').likes
+    popularity = {}
+    drawings.each do |d|
+      popularity[d.id] = (d.likes * 10 / most_likes).round # popularity from 0 to 10
+    end
+    popularity
   end
 
   private

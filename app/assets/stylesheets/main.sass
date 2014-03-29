@@ -47,16 +47,14 @@ a
   text-decoration: none
   color: $brown
   &:hover
-    color: $green
-a.new, #user a
-  color: $green
-  &:hover
     color: $dark
+a.new, #user a
+  color: $dark
+  &:hover
+    color: $green
 
 #background, .circle, .square, #intro
   cursor: crosshair
-
-
 
 #background
   position: absolute
@@ -81,3 +79,7 @@ a.new, #user a
 
 .circle
   border-radius: 50%
+  
+@for $i from 0 through 10
+  .popularity#{$i}
+    color: mix(#CC2527, #bbb, $i * 10%)

@@ -2,7 +2,9 @@ class DrawingsController < ApplicationController
   before_filter :setup_session
 
   def index
-    @drawings = Drawing.all
+    @drawings   = Drawing.all
+    @popularity = Drawing.popularity @drawings
+    puts @popularity.inspect
   end
 
   def new
