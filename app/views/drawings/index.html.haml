@@ -1,4 +1,4 @@
 #menu
-  =link_to "New", '/', class: 'new check_if_dirty'
+  =link_new
   -@drawings.each do |d|
     =link_to d.camel_name, drawing_path(d)
