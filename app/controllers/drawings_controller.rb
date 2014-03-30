@@ -2,9 +2,11 @@ class DrawingsController < ApplicationController
   before_filter :setup_session
 
   def index
+    session[:weight] ||= :complexity
     @drawings = Drawing.all
-    @field    = params[:weight] || :complexity
+    @field    = params[:weight] || session[:weight]
     @weight   = Drawing.weight(@drawings, @field)
+    session[:weight] = @field
   end
 
   def new
