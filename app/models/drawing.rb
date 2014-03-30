@@ -1,7 +1,7 @@
 class Drawing < ActiveRecord::Base
   attr_accessible :name, :salt, :sprites_json, :user_id, :based_on, :likes
 
-  before_save :add_salt
+  before_save :name_and_salt
 
   def to_param
     (id.to_s + salt.to_s).reverse.to_i.to_s(36)
@@ -31,8 +31,9 @@ class Drawing < ActiveRecord::Base
   end
 
   private
-    def add_salt
+    def name_and_salt
       self.salt = 1 + rand(8)
+      self.name = "untitled" if name.strip == ''
     end
 
 end

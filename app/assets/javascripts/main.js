@@ -1,5 +1,5 @@
 // Constants
-var MAX_IDLE = 1; // minutes
+var MAX_IDLE = 3; // minutes
 var NUM_CHANGES_FOR_DIRTY = 10;
 var SHAPE  = 's';
 var CIRCLE = 0;
@@ -99,7 +99,8 @@ function registerObjects() {
 
 function registerChange() {
   changes_added++;
-  if (dirty()) {
+  idle_time = 0;
+  if (dirty() && $('#like').is(':visible')) {
     $('#based_on').fadeIn('fast');
     $('#based_on_link').html($('#name').html()).attr('href', $('#name').attr('href'));
     $('#name').html('');
@@ -147,6 +148,7 @@ jQuery.fn.startGrowing = function() {
 
 function stopGrowing() {
   clearInterval(grow_interval_id);
+  idle_time = 0;
 }
 
 function dirty() {
@@ -208,19 +210,21 @@ function saveDrawing() {
     });
   }
   var name = prompt("What should we call this thing?");
-  $.ajax({
-    url  : "/drawings",
-    type : "POST",
-    data : { drawing: {
-      name         : name,
-      sprites_json : JSON.stringify(sprite_data),
-      based_on     : $('#here').html()
-    } }
-  }).done(function(response) {
-    changes_added = 0;
-    $('#name').html(response.name).attr('href', response.url);
-    document.location = response.url;
-  });
+  if (name !== null) {
+    $.ajax({
+      url  : "/drawings",
+      type : "POST",
+      data : { drawing: {
+        name         : name,
+        sprites_json : JSON.stringify(sprite_data),
+        based_on     : $('#here').html()
+      } }
+    }).done(function(response) {
+      changes_added = 0;
+      $('#name').html(response.name).attr('href', response.url);
+      document.location = response.url;
+    });
+  }
 }
 
 function clamp(x, a, b) {
