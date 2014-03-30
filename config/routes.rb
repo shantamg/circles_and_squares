@@ -6,7 +6,8 @@ CirclesAndSquares::Application.routes.draw do
 
   root :to => 'drawings#new'
 
-  resources :drawings
   get 'drawings/like/:id', to: 'drawings#like' 
+  get 'drawings/index/:weight', to: 'drawings#index'
+  resources :drawings
 
 end

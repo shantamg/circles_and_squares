@@ -1,7 +1,7 @@
 class Drawing < ActiveRecord::Base
-  attr_accessible :name, :salt, :sprites_json, :user_id, :based_on, :likes
+  attr_accessible :name, :salt, :sprites_json, :user_id, :based_on, :likes, :complexity
 
-  before_save :name_and_salt
+  before_save :data_massage
 
   def to_param
     (id.to_s + salt.to_s).reverse.to_i.to_s(36)
@@ -21,19 +21,20 @@ class Drawing < ActiveRecord::Base
     name.gsub(/\s+/, "_").camelize
   end
 
-  def self.popularity(drawings)
-    most_likes = find(:first, select: 'likes', order: 'likes desc').likes
-    popularity = {}
+  def self.weight(drawings, field)
+    most = find(:first, select: field, order: "#{field} desc").send(field.to_sym)
+    data = {}
     drawings.each do |d|
-      popularity[d.id] = (d.likes * 10 / most_likes).round # popularity from 0 to 10
+      data[d.id] = (d.send(field.to_sym) * 10 / most).round # scale of 0 to 10
     end
-    popularity
+    data
   end
 
   private
-    def name_and_salt
+    def data_massage
       self.salt = 1 + rand(8)
       self.name = "untitled" if name.strip == ''
+      self.complexity = (sprites_json.length / 10).round
     end
 
 end
