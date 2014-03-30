@@ -7,6 +7,9 @@ $grey: #878574
 $brown2: #be9f73
 $stone: #95a59f
 $green: #749c94
+$likes: green
+$complexity: #CC2527
+  
 
 *
   padding: 0
@@ -34,6 +37,18 @@ a#title
 a#name
   text-decoration: underline
 
+#weight
+  margin: 0 2em
+  a.complexity
+    color: $complexity
+    &:hover
+      color: darken($complexity, 10%)
+  a.likes
+    color: $likes
+    &:hover
+      color: darken($likes, 10%)
+  a.current
+    text-decoration: underline
 
 #likes, #based_on
   margin-right: .3em
@@ -79,7 +94,9 @@ a.new, #user a
 
 .circle
   border-radius: 50%
-  
+
 @for $i from 0 through 10
-  .weight#{$i}
-    color: mix(#CC2527, #bbb, $i * 10%)
+  .likes.weight#{$i}
+    color: mix($likes, #bbb, $i * 10%)
+  .complexity.weight#{$i}
+    color: mix($complexity, #bbb, $i * 10%)

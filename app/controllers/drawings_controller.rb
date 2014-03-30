@@ -3,7 +3,8 @@ class DrawingsController < ApplicationController
 
   def index
     @drawings = Drawing.all
-    @weight   = Drawing.weight(@drawings, params[:weight] || :complexity)
+    @field    = params[:weight] || :complexity
+    @weight   = Drawing.weight(@drawings, @field)
   end
 
   def new
