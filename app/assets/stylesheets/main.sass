@@ -19,27 +19,46 @@ body
   background-color: $tan
   font-family: 'Ribeye Marrow', cursive
   font-size: 1.3em
+  min-width: 900px
+  overflow: auto
 
-#menu
+#menu, #user
   text-align: right
-  padding: 1em 3em
+  padding: 1em 1em 1em 3em
+  white-space: nowrap
+  overflow: hidden
+  position: fixed
+  z-index: 100
+  background-color: transparentize($tan, .2)
+  top: 0
 
 #user
+  right: 0
+  position: fixed
+  padding: 1em 3em 1em 1em
+  @media only screen and (max-width: 750px)
+    right: inherit
+    left: 583px
+    
+
+
+.box
   float: right
-  display: block
-  margin-left: .5em
-  padding: 1em 3em 0 0
+  margin: 4em 3em 0 3em
+  height: 400px
+  text-align: justify
+  overflow: auto
 
 a#title
   font-weight: bold
   color: $dark
-  margin-right: 2em
+  margin-right: 1em
 
 a#name
   text-decoration: underline
 
 #weight
-  margin: 0 2em
+  margin: 0 1em
   a.complexity
     color: $complexity
     &:hover
@@ -64,7 +83,7 @@ a
   color: $brown
   &:hover
     color: $dark
-a.new, #user a
+#user a
   color: $dark
   &:hover
     color: $green
@@ -80,18 +99,30 @@ a.new, #user a
   margin: 3em
   color: $dark
 #heading
-  font-size: 3.5em
+  font-size: 2.5em
 .item
-  font-size: 2em
+  font-size: 1.3em
 
-.circle, .square
+.circle, .square, .circle_demo, .square_demo
   height: 1px
   width: 1px
   border: 2px solid $dark
   position: absolute
 
-.circle
+.circle, .circle_demo
   border-radius: 50%
+
+.circle_demo
+  top: 20px
+  left: -50px
+  width: 4000px
+  height: 4000px
+
+.square_demo
+  top: -242px
+  left: -2px
+  width: 700px
+  height: 700px
 
 @for $i from 0 through 10
   a.likes.weight#{$i}
