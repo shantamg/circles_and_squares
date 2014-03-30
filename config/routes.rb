@@ -10,4 +10,5 @@ CirclesAndSquares::Application.routes.draw do
   get 'drawings/index/:weight', to: 'drawings#index'
   resources :drawings
 
+  match '*page' => redirect('/')
 end

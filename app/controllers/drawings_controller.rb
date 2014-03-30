@@ -6,6 +6,7 @@ class DrawingsController < ApplicationController
     @drawings = Drawing.all
     @field    = params[:weight] || session[:weight]
     @weight   = Drawing.weight(@drawings, @field)
+    redirect_to '/' unless @weight
     session[:weight] = @field
   end
 

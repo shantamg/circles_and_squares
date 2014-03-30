@@ -28,6 +28,8 @@ class Drawing < ActiveRecord::Base
       data[d.id] = (d.send(field.to_sym) * 10 / most).round # scale of 0 to 10
     end
     data
+  rescue
+    nil
   end
 
   private
