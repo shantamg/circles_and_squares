@@ -96,7 +96,11 @@ a.new, #user a
   border-radius: 50%
 
 @for $i from 0 through 10
-  .likes.weight#{$i}
+  a.likes.weight#{$i}
     color: mix($likes, #bbb, $i * 10%)
-  .complexity.weight#{$i}
+    &:hover
+      color: $dark
+  a.complexity.weight#{$i}
     color: mix($complexity, #bbb, $i * 10%)
+    &:hover
+      color: $dark
