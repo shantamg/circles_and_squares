@@ -19,26 +19,30 @@ body
   background-color: $tan
   font-family: 'Ribeye Marrow', cursive
   font-size: 1.3em
-  min-width: 900px
+  min-width: 865px
   overflow: auto
 
 #menu, #user
-  text-align: right
   padding: 1em 1em 1em 3em
-  white-space: nowrap
-  overflow: hidden
   position: fixed
   z-index: 100
   background-color: transparentize($tan, .2)
   top: 0
 
+#menu
+  text-align: left
+  left: 0
+
+.nowrap
+  white-space: nowrap
+
 #user
   right: 0
   position: fixed
   padding: 1em 3em 1em 1em
-  @media only screen and (max-width: 750px)
+  @media only screen and (max-width: 865px)
     right: inherit
-    left: 583px
+    left: 700px
     
 
 

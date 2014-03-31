@@ -1,14 +1,17 @@
 #menu
   =link_title
   #here{style: 'display:none'}=@drawing.to_param
-  %span{id: 'likes', style: @drawing.likes == 0 ? 'display:none' : ''}=@drawing.likes
-  =link_to "<i class='fa fa-thumbs-o-up'></i>".html_safe, '', id: 'like', class: @liked ? 'liked' : ''
-  =link_name @drawing.camel_name
-  %span{id: 'based_on', style: @based_on ? '' : 'display:none'} Based on:
-  =link_to @based_on ? @based_on.camel_name : '', @based_on || '', id: 'based_on_link'
-  =link_new
-  =link_save
-  =link_browse
+  %span.nowrap
+    =link_new
+    =link_save
+    =link_browse
+  %span.nowrap
+    =link_name @drawing.camel_name
+    =link_to "<i class='fa fa-thumbs-o-up'></i>".html_safe, '', id: 'like', class: @liked ? 'liked' : ''
+    %span{id: 'likes', style: @drawing.likes == 0 ? 'display:none' : ''}=@drawing.likes
+  %span.nowrap
+    %span{id: 'based_on', style: @based_on ? '' : 'display:none'} Based on:
+    =link_to @based_on ? @based_on.camel_name : '', @based_on || '', id: 'based_on_link'
 #background
 .circle.prototype{style: 'display:none'}
 .square.prototype{style: 'display:none'}
