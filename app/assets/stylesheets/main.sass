@@ -9,6 +9,7 @@ $stone: #95a59f
 $green: #749c94
 $likes: green
 $complexity: #CC2527
+$updated_at: blue
   
 
 *
@@ -70,6 +71,10 @@ a#name
     color: $likes
     &:hover
       color: darken($likes, 10%)
+  a.updated_at
+    color: $updated_at
+    &:hover
+      color: darken($updated_at, 10%)
   a.current
     text-decoration: underline
 
@@ -134,5 +139,9 @@ a
       color: $dark
   a.complexity.weight#{$i}
     color: mix($complexity, #bbb, $i * 10%)
+    &:hover
+      color: $dark
+  a.updated_at.weight#{$i}
+    color: mix($updated_at, #bbb, $i * 10%)
     &:hover
       color: $dark

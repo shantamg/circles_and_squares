@@ -3,7 +3,7 @@ class DrawingsController < ApplicationController
 
   def index
     session[:weight] ||= 'complexity'
-    @drawings = Drawing.all
+    @drawings = Drawing.order('created_at desc')
     @field    = params[:weight] || session[:weight]
     @weight   = Drawing.weight(@drawings, @field)
     redirect_to '/' unless @weight
@@ -27,6 +27,7 @@ class DrawingsController < ApplicationController
 
   def show
     @drawing = Drawing.find_by_uid(params[:id])
+    @drawing.touch
     @sprites = @drawing.parseSprites
     @liked   = session[:liked].include? params[:id]
     @based_on = Drawing.find_by_uid(@drawing.based_on) if @drawing.based_on

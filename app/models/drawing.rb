@@ -1,6 +1,5 @@
 class Drawing < ActiveRecord::Base
   attr_accessible :name, :salt, :sprites_json, :user_id, :based_on, :likes, :complexity
-  default_scope order: 'created_at desc'
   before_save :data_massage
 
   def to_param
@@ -22,14 +21,13 @@ class Drawing < ActiveRecord::Base
   end
 
   def self.weight(drawings, field)
-    most = find(:first, select: field, order: "#{field} desc").send(field.to_sym)
+    most = find(:first, select: field, order: "#{field} desc").send(field.to_sym).to_i
+    least = find(:first, select: field, order: "#{field} asc").send(field.to_sym).to_i
     data = {}
     drawings.each do |d|
-      data[d.id] = (d.send(field.to_sym) * 10 / most).round # scale of 0 to 10
+      data[d.id] = ((d.send(field.to_sym).to_i - least) * 10 / (most - least)).round # scale of 0 to 10
     end
     data
-  rescue
-    nil
   end
 
   private
