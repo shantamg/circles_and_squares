@@ -10,6 +10,8 @@ $green: #749c94
 $likes: green
 $complexity: #CC2527
 $updated_at: blue
+
+$too_small: 700px
   
 
 *
@@ -22,7 +24,20 @@ body
   font-size: 1.3em
   min-width: 865px
   overflow: auto
+  @media only screen and (max-width: $too_small)
+    overflow: hidden
 
+#no_mobile
+  position: absolute
+  z-index: 100000
+  padding: 1em
+  height: 100%
+  text-align: justify
+  background-color: $tan
+  display: none
+  @media only screen and (max-width: $too_small)
+    display: block
+  
 #menu, #user
   padding: 1em 1em 1em 3em
   position: fixed
