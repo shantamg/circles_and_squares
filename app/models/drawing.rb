@@ -17,7 +17,7 @@ class Drawing < ActiveRecord::Base
   end
 
   def camel_name
-    name.gsub(/\s+/, "_").camelize
+    name.truncate(35).gsub(/\s+/, "_").camelize
   end
 
   def self.weight(drawings, field)
