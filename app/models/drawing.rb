@@ -1,6 +1,6 @@
 class Drawing < ActiveRecord::Base
   attr_accessible :name, :salt, :sprites_json, :user_id, :based_on, :likes, :complexity
-
+  default_scope order: 'created_at desc'
   before_save :data_massage
 
   def to_param
