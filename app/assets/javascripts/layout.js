@@ -1,8 +1,7 @@
 $(document).ready(function() {
+  moveUser();
   $(window).resize(function() {
-    if (!$('.box').length) {
-      moveUser();
-    }
+    moveUser();
   });
 });
 

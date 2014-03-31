@@ -4,6 +4,6 @@
   %span#weight
     =link_to 'Complexity', '/drawings/index/complexity', class: ("complexity " + (@field == 'complexity' ? 'current' : ''))
     =link_to 'Popularity', '/drawings/index/likes', class: ("likes " + (@field == 'likes' ? 'current' : ''))
-.box
+.browse
   -@drawings.each do |d|
     =link_to d.camel_name, drawing_path(d), class: "weight#{@weight[d.id]} #{@field}"
