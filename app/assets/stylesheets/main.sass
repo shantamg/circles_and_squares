@@ -11,7 +11,7 @@ $likes: green
 $complexity: #CC2527
 $updated_at: blue
 
-$too_small: 700px
+$too_small: 890px
   
 
 *
@@ -24,14 +24,16 @@ body
   font-size: 1.3em
   min-width: 865px
   overflow: auto
+#container
   @media only screen and (max-width: $too_small)
     overflow: hidden
+    display: none
+  
 
 #no_mobile
   position: absolute
   z-index: 100000
-  padding: 1em
-  height: 100%
+  padding: 2em
   text-align: justify
   background-color: $tan
   display: none
@@ -56,6 +58,8 @@ body
   right: 0
   position: fixed
   padding: 1em 3em 1em 1em
+  @media only screen and (max-width: $too_small)
+    display: none
   @media only screen and (max-width: 865px)
     right: inherit
     left: 700px

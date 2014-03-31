@@ -10,13 +10,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div id="container">
+    <div id="user">
+      <%=link_to "Logout", '/'%>
+    </div>
+    <%= yield %>
+  </div>
   <div id="no_mobile">
-    Circles and Squares does not support such a small screen. Please try again when you're not in the middle of something else.
+    <p>Circles and Squares does not support such a small screen. If you are unable to make this window bigger, please try again when you're not in the middle of something else.</p>
   </div>
-  <div id="user">
-    <%=link_to "Logout", '/'%>
-  </div>
-  <%= yield %>
-
 </body>
 </html>
