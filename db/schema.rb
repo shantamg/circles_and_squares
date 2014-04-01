@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140330022331) do
+ActiveRecord::Schema.define(:version => 20140401180852) do
 
   create_table "affiliates", :force => true do |t|
     t.string "name"
@@ -71,11 +71,12 @@ ActiveRecord::Schema.define(:version => 20140330022331) do
     t.text     "sprites_json", :limit => 2147483647
     t.string   "name"
     t.integer  "salt"
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
     t.integer  "likes",                              :default => 0
     t.string   "based_on"
     t.integer  "complexity"
+    t.boolean  "img",                                :default => false, :null => false
   end
 
   create_table "events", :force => true do |t|
