@@ -7,6 +7,8 @@ gem 'rails', '3.2.8'
 
 gem 'mysql2'
 gem 'haml'
+gem 'capit'
+gem 'rmagick'
 
 
 # Gems used only for assets and not required

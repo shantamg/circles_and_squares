@@ -31,6 +31,7 @@ class DrawingsController < ApplicationController
     @sprites = @drawing.parseSprites
     @liked   = session[:liked].include? params[:id]
     @based_on = Drawing.find_by_uid(@drawing.based_on) if @drawing.based_on
+    @for_image = params[:for_image]
   rescue ActiveRecord::RecordNotFound
     redirect_to '/'
   end

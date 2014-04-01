@@ -1,4 +1,4 @@
-#menu
+#menu{style: @for_image ? 'display: none' : ''}
   =link_title
   #here{style: 'display:none'}=@drawing.to_param
   %span.nowrap
@@ -12,7 +12,7 @@
   %span.nowrap
     %span{id: 'based_on', style: @based_on ? '' : 'display:none'} Based on:
     =link_to @based_on ? @based_on.camel_name : '', @based_on || '', id: 'based_on_link'
-#background
+#background{style: @for_image ? 'display:none' : ''}
 .circle.prototype{style: 'display:none'}
 .square.prototype{style: 'display:none'}
 -@sprites.each do |s|

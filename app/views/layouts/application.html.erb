@@ -11,7 +11,7 @@
 </head>
 <body>
   <div id="container">
-    <div id="user">
+    <div id="user" style="<%= @for_image ? "display:none" : ""%>">
       <%=link_to "Logout", '/'%>
     </div>
     <%= yield %>
