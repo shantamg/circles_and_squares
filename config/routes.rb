@@ -8,7 +8,9 @@ CirclesAndSquares::Application.routes.draw do
 
   get 'drawings/like/:id', to: 'drawings#like' 
   get 'drawings/index/:weight', to: 'drawings#index'
-  get 'drawings/:id/:for_image', to: 'drawings#show', as: 'drawing'
+  get 'drawings/:id', to: 'drawings#show'
+  get 'drawings/:id/:for_image', to: 'drawings#show'
+
   resources :drawings
 
   match '*page' => redirect('/')

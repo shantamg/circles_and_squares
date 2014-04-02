@@ -29,6 +29,7 @@ $(document).ready(function() {
   $balloon = $('#balloon');
   function chase(follower) {
     $follower = follower;
+    $follower.css('background-image', "url('/assets/drawings/"+$this.attr('data-id')+".jpg')");
     clearInterval(chasing);
     chasing = setInterval(function() {
       timeOut++;

@@ -7,5 +7,5 @@
     =link_to 'Freshness', '/drawings/index/updated_at', class: ("updated_at " + (@field == 'updated_at' ? 'current' : ''))
 .browse
   -@drawings.each do |d|
-    =link_to d.camel_name, drawing_path(d), class: "weight#{@weight[d.id]} #{@field}"
+    =link_to d.camel_name, d, class: "weight#{@weight[d.id]} #{@field}", data: {id: d.id}
 #balloon{style: 'display:none'}

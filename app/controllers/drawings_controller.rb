@@ -26,11 +26,11 @@ class DrawingsController < ApplicationController
   end
 
   def show
-    @drawing = Drawing.find_by_uid(params[:id])
+    @drawing = Drawing.find(params[:id])
     @drawing.touch
     @sprites = @drawing.parseSprites
     @liked   = session[:liked].include? params[:id]
-    @based_on = Drawing.find_by_uid(@drawing.based_on) if @drawing.based_on
+    @based_on = Drawing.find(@drawing.based_on) if @drawing.based_on
     @for_image = params[:for_image]
   rescue ActiveRecord::RecordNotFound
     redirect_to '/'
