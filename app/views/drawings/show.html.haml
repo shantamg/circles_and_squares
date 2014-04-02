@@ -1,6 +1,6 @@
 #menu{style: @for_image ? 'display: none' : ''}
   =link_title
-  #here{style: 'display:none'}=url_for @drawing
+  #here{style: 'display:none'}=@drawing.id
   %span.nowrap
     =link_new
     =link_save

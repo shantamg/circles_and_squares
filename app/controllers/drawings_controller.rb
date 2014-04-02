@@ -37,7 +37,7 @@ class DrawingsController < ApplicationController
   end
 
   def like
-    @drawing = Drawing.find_by_uid(params[:id])
+    @drawing = Drawing.find(params[:id])
     unless session[:liked].include? params[:id]
       @drawing.likes = @drawing.likes + 1
       if @drawing.save
