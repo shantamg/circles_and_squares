@@ -6,7 +6,6 @@
     =link_to 'Popularity', '/drawings/index/likes', class: ("likes " + (@field == 'likes' ? 'current' : ''))
     =link_to 'Freshness', '/drawings/index/updated_at', class: ("updated_at " + (@field == 'updated_at' ? 'current' : ''))
 .browse
-  -20.times do
-    -@drawings.each do |d|
-      =link_to d.camel_name, d, class: "weight#{@weight[d.id]} #{@field}", data: {id: d.id}
+  -@drawings.each do |d|
+    =link_to d.camel_name, d, class: "weight#{@weight[d.id]} #{@field}", data: {id: d.id}
 #balloon{style: 'display:none'}
