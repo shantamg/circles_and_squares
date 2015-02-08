@@ -4,6 +4,6 @@ This is still just a very simple implementation of a very simple idea.
 
 Try it!
 
-[circlesandsquares.jasongaluten.com](http://circlesandsquares.jasongaluten.com)
+http://circlesandsquares.jasongaluten.com
 
 Browse the existing drawings, add to them, make your own, and save them for others to see!
