@@ -33,10 +33,11 @@ gem 'jquery-rails'
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano'
+gem 'capistrano', '2.15.4'
+gem 'rvm-capistrano', require: false
 
 # To use debugger
 # gem 'debugger'

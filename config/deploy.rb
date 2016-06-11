@@ -1,9 +1,10 @@
+require "rvm/capistrano"
 require "bundler/capistrano"
 
-server "linode", :web, :app, :db, primary: true
+server "dev", :web, :app, :db, primary: true
 
 set :application, "circles-and-squares"
-set :user, "deployer"
+set :user, "ubuntu"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 #set :deploy_via, :remote_cache
 set :use_sudo, false
@@ -26,7 +27,8 @@ namespace :deploy do
   end
 
   task :setup_config, roles: :app do
-    sudo "ln -nfs #{current_path}/config/apache.conf /etc/apache2/sites-available/#{application}"
+    sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
+    sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
     run "mkdir -p #{shared_path}/config"
     put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
     puts "Now edit the config files in #{shared_path}."
