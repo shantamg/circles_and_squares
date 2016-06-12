@@ -28,6 +28,18 @@ body
   @media only screen and (max-width: $too_small)
     overflow: hidden
     display: none
+
+body.invert
+  background-color: black
+  #menu, #user
+    background-color: rgba(0,0,0,.5)
+  
+#switch
+  padding: 1em
+  cursor: pointer
+  position: absolute
+  right: 0
+  color: $dark
   
 
 #no_mobile
@@ -46,6 +58,7 @@ body
   z-index: 100
   background-color: transparentize($tan, .2)
   top: 0
+  margin-right: 2em
 
 #menu
   text-align: left

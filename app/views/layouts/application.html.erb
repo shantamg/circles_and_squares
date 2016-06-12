@@ -11,9 +11,7 @@
 </head>
 <body>
   <div id="container">
-    <div id="user" style="<%= @for_image ? "display:none" : ""%>">
-      <%=link_to "Logout", '/'%>
-    </div>
+    <div id="switch"><i class="fa fa-lightbulb-o"></i></div>
     <%= yield %>
   </div>
   <div id="no_mobile">
