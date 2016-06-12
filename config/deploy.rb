@@ -20,10 +20,11 @@ after "deploy", "deploy:cleanup" # keep only the last 5 releases
 
 
 namespace :deploy do
-  task :start do; end
-  task :stop do; end
-  task :restart, roles: :app, except: {no_release: true} do
-    run "touch #{deploy_to}/current/tmp/restart.txt"
+  %w[start stop restart].each do |command|
+    desc "#{command} unicorn server"
+    task command, roles: :app, except: {no_release: true} do
+      run "/etc/init.d/unicorn_#{application} #{command}"
+    end
   end
 
   task :setup_config, roles: :app do
@@ -49,10 +50,15 @@ namespace :deploy do
     end
   end
   before "deploy", "deploy:check_revision"
+  after "deploy", "update_cron"
 end
 
-"Restart Apache"
-task :restart_apache, roles: :app do
-  run "sudo service apache2 restart"
+task :console, :roles => :app do
+  hostname = find_servers_for_task(current_task).first
+  exec "ssh -l #{user} #{hostname} -t 'source ~/.profile && #{current_path}/script/rails c #{rails_env}'"
 end
 
+task :tail_logs, :roles => :app do
+  hostname = find_servers_for_task(current_task).first
+  execute "ssh -l #{user} #{hostname} -t 'source ~/.profile && #{current_path}/log/#{fetch(:rails_env)}.log'"
+end
