@@ -1,6 +1,6 @@
 module MenuHelper
   def link_title
-    link_to "CirclesAndSquares!", '/', id: 'title'
+    link_to "CirclezAndSquarez!", '/', id: 'title'
   end
 
   def link_new
