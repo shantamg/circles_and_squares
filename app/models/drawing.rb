@@ -17,7 +17,11 @@ class Drawing < ActiveRecord::Base
     least = find(:first, select: field, order: "#{field} asc").send(field.to_sym).to_i
     data = {}
     drawings.each do |d|
-      data[d.id] = ((d.send(field.to_sym).to_i - least) * 10 / (most - least).nonzero? || 1 ).round # scale of 0 to 10
+      data[d.id] = if most - least != 0
+                     ((d.send(field.to_sym).to_i - least) * 10 / (most - least)).round # scale of 0 to 10
+                   else
+                     0
+                   end
     end
     data
   end
