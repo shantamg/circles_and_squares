@@ -47,6 +47,11 @@ class DrawingsController < ApplicationController
     render text: ''
   end
 
+  def invert
+    session[:invert] = session[:invert] == 'invert' ? '' : 'invert'
+    render text: ''
+  end
+
   def setup_session
     session[:liked] = Array.new unless session[:liked]
   end

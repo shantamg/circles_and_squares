@@ -10,6 +10,7 @@ CirclesAndSquares::Application.routes.draw do
   get 'drawings/index/:weight', to: 'drawings#index'
   get 'drawings/:id', to: 'drawings#show'
   get 'drawings/:id/:for_image', to: 'drawings#show'
+  get '/invert', to: 'drawings#invert'
 
   resources :drawings
 
