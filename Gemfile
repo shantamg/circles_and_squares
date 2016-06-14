@@ -23,6 +23,7 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'capistrano-rails'
+  gem 'capistrano-bundler'
   gem 'capistrano-rvm'
   gem 'capistrano-unicorn', require: false
 end

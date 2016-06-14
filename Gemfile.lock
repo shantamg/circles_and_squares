@@ -189,6 +189,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  capistrano-bundler
   capistrano-rails
   capistrano-rvm
   capistrano-unicorn
