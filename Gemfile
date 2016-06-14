@@ -24,7 +24,7 @@ group :development do
   gem 'spring'
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
-  gem 'capistrano-unicorn'
+  gem 'capistrano-unicorn', require: false
 end
 
 gem 'unicorn'
