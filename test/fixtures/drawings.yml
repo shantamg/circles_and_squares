@@ -1,13 +1,19 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user_id: 1
   sprites_json: MyText
   name: MyString
   salt: 1
+  likes: 1
+  based_on: MyString
+  complexity: 1
+  img: false
 
 two:
-  user_id: 1
   sprites_json: MyText
   name: MyString
   salt: 1
+  likes: 1
+  based_on: MyString
+  complexity: 1
+  img: false

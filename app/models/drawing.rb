@@ -1,5 +1,4 @@
 class Drawing < ActiveRecord::Base
-  attr_accessible :name, :salt, :sprites_json, :user_id, :based_on, :likes, :complexity, :img
   before_save :data_massage
 
   def parseSprites
@@ -13,8 +12,8 @@ class Drawing < ActiveRecord::Base
   end
 
   def self.weight(drawings, field)
-    most = find(:first, select: field, order: "#{field} desc").send(field.to_sym).to_i
-    least = find(:first, select: field, order: "#{field} asc").send(field.to_sym).to_i
+    most = select(field).order("#{field} desc").first.send(field.to_sym).to_i
+    least = select(field).order("#{field} asc").first.send(field.to_sym).to_i
     data = {}
     drawings.each do |d|
       data[d.id] = if most - least != 0

@@ -9,21 +9,20 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140401180852) do
+ActiveRecord::Schema.define(version: 20160614011046) do
 
-  create_table "drawings", :force => true do |t|
-    t.integer  "user_id"
-    t.text     "sprites_json", :limit => 2147483647
+  create_table "drawings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "sprites_json", limit: 65535
     t.string   "name"
     t.integer  "salt"
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
-    t.integer  "likes",                              :default => 0
+    t.integer  "likes"
     t.string   "based_on"
     t.integer  "complexity"
-    t.boolean  "img",                                :default => false, :null => false
+    t.boolean  "img",                        default: false, null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
   end
 
 end

@@ -2,12 +2,12 @@
 <html>
 <head>
   <title>Circlez And Squarez</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <link href='http://fonts.googleapis.com/css?family=Ribeye+Marrow' rel='stylesheet' type='text/css'>
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
   <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body class="<%=session[:invert]%>">

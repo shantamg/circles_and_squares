@@ -1,4 +1,4 @@
-CirclesAndSquares::Application.routes.draw do
+Rails.application.routes.draw do
 
   PagesController.action_methods.each do |action|
     get "/#{action}", to: "pages##{action}", as: "#{action}"
@@ -14,5 +14,4 @@ CirclesAndSquares::Application.routes.draw do
 
   resources :drawings
 
-  match '*page' => redirect('/')
 end

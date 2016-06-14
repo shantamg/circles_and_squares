@@ -14,7 +14,7 @@ class DrawingsController < ApplicationController
   end
 
   def create
-    @drawing = Drawing.new params[:drawing]
+    @drawing = Drawing.new drawing_params
     if @drawing.save
       render json: {
         name: @drawing.camel_name,
@@ -39,7 +39,7 @@ class DrawingsController < ApplicationController
   def like
     @drawing = Drawing.find(params[:id])
     unless session[:liked].include? params[:id]
-      @drawing.likes = @drawing.likes + 1
+      @drawing.likes = (@drawing.likes || 0) + 1
       if @drawing.save
         session[:liked] << params[:id]
       end
@@ -55,4 +55,11 @@ class DrawingsController < ApplicationController
   def setup_session
     session[:liked] = Array.new unless session[:liked]
   end
+
+  private
+
+    def drawing_params
+      params.require(:drawing).permit(:name, :salt, :sprites_json, :user_id, :based_on, :likes, :complexity, :img)
+    end
+
 end
