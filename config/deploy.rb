@@ -2,7 +2,7 @@ lock '3.5.0'
 
 set :application, 'circlez_and_squarez'
 set :repo_url, 'git@github.com:shantamg/circles_and_squares.git'
-set :rvm_ruby_version, '2.2.2p95'
+set :rvm_ruby_version, '2.2.2'
 
 set :branch, "master"
 
