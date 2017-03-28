@@ -11,7 +11,7 @@
 
   sprites = {}
   latestId = 0
-  grow_interval_id = 0
+  grow_intervals = {}
   intro = true
   changes_added = 0
   idle_time = 0
@@ -22,8 +22,9 @@
     if !$this
       return false
     bigEnough = false
-    stopGrowing()
-    grow_interval_id = setInterval((->
+    clearInterval grow_intervals[$this.attr('id')]
+    delete grow_intervals[$this.attr('id')]
+    grow_intervals[$this.attr('id')] = setInterval((->
       thisI = getInfo($this)
       for key of sprites
         if key == $this.attr('id')
@@ -35,6 +36,13 @@
         makeBigger $this
       return
     ), 25)
+    return
+
+  $.fn.stopGrowing = ->
+    $this = $(@[0])
+    clearInterval grow_intervals[$this.attr('id')]
+    delete grow_intervals[$this.attr('id')]
+    idle_time = 0
     return
 
   registerObject = (obj) ->
@@ -95,11 +103,6 @@
     registerObject obj
     obj
 
-  stopGrowing = ->
-    clearInterval grow_interval_id
-    idle_time = 0
-    return
-
   dirty = ->
     changes_added >= NUM_CHANGES_FOR_DIRTY
 
@@ -138,10 +141,11 @@
     registerObject obj
     return
 
-  removeObject = (obj) ->
-    stopGrowing()
-    delete sprites[obj.attr('id')]
-    obj.remove()
+  $.fn.removeObject = ->
+    $this = $(@[0])
+    $this.stopGrowing()
+    delete sprites[$this.attr('id')]
+    $this.remove()
     return
 
   saveDrawing = ->
@@ -171,7 +175,26 @@
     Math.min Math.max(x, a), b
 
   $(document).ready ->
+    hideIntro()
+    window_width = $(window).width()
+    window_height = $(window).height()
     registerObjects()
+    setInterval( (->
+      e =
+        #shiftKey: (Math.floor(Math.random() * 2) == 0),
+        pageY: Math.floor(Math.random() * window_height)
+        pageX: Math.floor(Math.random() * window_width)
+      create = true
+      for key of sprites
+        otherI = sprites[key]
+        if (otherI.x - e.pageX)**2 + (otherI.y - e.pageY)**2 < otherI.r**2
+          # $("##{key}").removeObject()
+          create = false
+          break
+      createObject(e).startGrowing() if create
+    ), 50)
+
+
     if $('#background').length
       idle_interval_id = setInterval(timerIncrement, 60000)
       # 1 minute
@@ -184,13 +207,11 @@
       $(this).startGrowing()
       return
     ).on('mouseleave', '.circle, .square', ->
-      stopGrowing()
       return
     ).on('click', '.circle, .square', ->
-      removeObject $(this)
+      $(@).removeObject()
       return
     ).on 'mousemove', '#background', ->
-      stopGrowing()
       return
     $('#save').click ->
       if !dirty()
