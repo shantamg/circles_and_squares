@@ -21,3 +21,5 @@
 app/assets/images/drawings/*
 
 .DS_Store
+
+dump.sql
